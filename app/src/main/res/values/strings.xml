@@ -1,0 +1,3 @@
+<resources>
+    <string name="accessibility_description">Creates a transparent orientation window during a landscape session. Landscapify does not read or control screen content.</string>
+</resources>
