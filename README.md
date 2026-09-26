@@ -30,6 +30,12 @@ https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
 
 To end a session, leave the selected app for about three seconds or tap **Stop session** in Landscapify's session notification. **Pause forcing** ends the current session and prevents new ones while keeping your library. Long press a tile to remove it.
 
+## Showcase
+
+https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
+
+[▶ Watch Subway Surfers in landscape](Showcase/Landscapify_Subway_surfers.mp4) · 16-second MP4 demo
+
 > [!IMPORTANT]
 > **Play Protect may warn or block installation.** GitHub APKs are installed outside Google Play, and Landscapify uses Accessibility. Download only from the official release, compare the APK's SHA-256 with `SHA256SUMS.txt`, and let Play Protect scan it if prompted.
 >
