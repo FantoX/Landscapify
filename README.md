@@ -2,12 +2,12 @@
 
 **Launch the apps you choose in a temporary landscape session.** Add them to your library, tap to open one, and Landscapify releases its orientation window when you leave.
 
-[Download the latest APK](https://github.com/FantoX/Landscapify/releases/latest) · [Get started](#get-started) · [Build from source](#build-from-source)
+[Download the latest APK](https://github.com/FantoX/Landscapify/releases/latest) · [Get started](#get-started) · [Watch the demo](#showcase) · [Build from source](#build-from-source)
 
 **Android 11+** · **No Shizuku, root, Wireless debugging, Developer options, or computer** · **No internet permission**
 
 <p align="center">
-  <img src="docs/images/landscapify-library.png" alt="Landscapify library with Chrome, Calendar, and Clock ready to launch" width="360">
+  <img src="docs/images/landscapify-library.jpg" alt="Landscapify library with Chrome, Calendar, and Clock ready to launch" width="360">
 </p>
 
 ## Get started
@@ -19,16 +19,22 @@
 
 To end a session, leave the selected app for about three seconds or tap **Stop session** in Landscapify's session notification. **Pause forcing** ends the current session and prevents new ones while keeping your library. Long press a tile to remove it.
 
+## Showcase
+
+[![Subway Surfers running in landscape](docs/images/subway-surfers-landscape.jpg)](Showcase/Landscapify_Subway_surfers.mp4)
+
+[▶ Watch Subway Surfers in landscape](Showcase/Landscapify_Subway_surfers.mp4) · 16-second MP4 demo
+
 ## How it works
 
 Landscapify starts a session before opening the selected app. Its Accessibility service places a transparent, untouchable window that requests landscape orientation. A foreground service watches app transitions through Usage Access and removes the window after you leave the selected app. Android also removes the window if the Landscapify process dies.
 
 The app does not change system rotation settings or per-app compatibility flags. It does not read screen content, perform gestures, or connect to an external service.
 
-| Access | Why it is needed |
-| --- | --- |
-| **Accessibility** | Creates the temporary orientation window during a session. |
-| **Usage Access** | Detects when you leave the selected app so the session can end. |
+| Access                 | Why it is needed                                                         |
+| ---------------------- | ------------------------------------------------------------------------ |
+| **Accessibility**      | Creates the temporary orientation window during a session.               |
+| **Usage Access**       | Detects when you leave the selected app so the session can end.          |
 | **Foreground service** | Keeps the active session running and provides a **Stop session** action. |
 
 ## Device and app compatibility
@@ -41,12 +47,12 @@ The current approach was verified on an Android 17 phone emulator with a portrai
 
 The [release page](https://github.com/FantoX/Landscapify/releases/latest) provides these signed APKs and `SHA256SUMS.txt`:
 
-| APK suffix | Choose it for |
-| --- | --- |
-| `universal` | **Recommended.** Works across the supported CPU architectures, including x86 emulators. |
-| `arm64-v8a` | Most modern Android phones and tablets. |
-| `armeabi-v7a` | Older 32-bit ARM devices. |
-| `x86_64` | 64-bit x86 Android emulators and devices. |
+| APK suffix    | Choose it for                                                                           |
+| ------------- | --------------------------------------------------------------------------------------- |
+| `universal`   | **Recommended.** Works across the supported CPU architectures, including x86 emulators. |
+| `arm64-v8a`   | Most modern Android phones and tablets.                                                 |
+| `armeabi-v7a` | Older 32-bit ARM devices.                                                               |
+| `x86_64`      | 64-bit x86 Android emulators and devices.                                               |
 
 The architecture-specific APKs are only slightly smaller because this app contains little native code. Use `SHA256SUMS.txt` to check a downloaded APK if desired.
 
@@ -70,15 +76,10 @@ bash ./gradlew :app:assembleDebug :app:lintDebug
 
 The installable universal debug APK is at `app/build/outputs/apk/debug/app-universal-debug.apk`.
 
-## Publishing a GitHub Release
+## Contributing
 
-The [release workflow](.github/workflows/release.yml) runs when a `vMAJOR.MINOR.PATCH` tag is pushed. It checks that the tag matches `versionName`, builds and lints signed release APKs, verifies their signing certificate, generates SHA-256 checksums, and uploads all four APKs plus `SHA256SUMS.txt`. The [v0.3.0 release](https://github.com/FantoX/Landscapify/releases/tag/v0.3.0) was published through this workflow.
+Contributions are welcome. If an app behaves differently on your device, please [open an issue](https://github.com/FantoX/Landscapify/issues) with your device model, Android version, app name, and what happened. For code or documentation changes, open a pull request and include how you tested it. Focused reports and fixes help improve compatibility across devices.
 
-For the next release, increase `versionCode` and set `versionName` in [app/build.gradle.kts](app/build.gradle.kts), commit and push that change, then push the matching tag:
+## Thank you
 
-```bash
-git tag v0.3.1
-git push origin v0.3.1
-```
-
-The workflow uses four repository Actions secrets: `LANDSCAPIFY_SIGNING_KEY_BASE64`, `LANDSCAPIFY_KEYSTORE_PASSWORD`, `LANDSCAPIFY_KEY_ALIAS`, and `LANDSCAPIFY_KEY_PASSWORD`. Keep the keystore and credentials backed up securely outside the repository. Losing the key prevents future APKs from updating existing release installs. The expected release certificate SHA-256 fingerprint is `AC:12:10:55:5C:F7:E1:80:E8:5F:A0:D4:46:3D:8C:B8:DD:30:0D:E4:6A:B6:31:3C:F3:82:83:4C:43:66:9B:56`.
+Thank you for trying Landscapify and helping make it better for other Android users.
