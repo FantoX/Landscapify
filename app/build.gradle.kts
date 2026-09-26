@@ -16,6 +16,30 @@ android {
         versionName = "0.3.0"
     }
 
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = true
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = System.getenv("LANDSCAPIFY_KEYSTORE_FILE")?.let(::file)
+            storePassword = System.getenv("LANDSCAPIFY_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("LANDSCAPIFY_KEY_ALIAS")
+            keyPassword = System.getenv("LANDSCAPIFY_KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
     buildFeatures {
         compose = true
     }

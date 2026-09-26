@@ -1,0 +1,80 @@
+name: Release APKs
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
+      - name: Check release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          version=$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)".*/\1/p' app/build.gradle.kts)
+          [[ "v$version" == "$GITHUB_REF_NAME" ]]
+
+      - name: Load signing key
+        shell: bash
+        env:
+          SIGNING_KEY_BASE64: ${{ secrets.LANDSCAPIFY_SIGNING_KEY_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.LANDSCAPIFY_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.LANDSCAPIFY_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.LANDSCAPIFY_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for value in "$SIGNING_KEY_BASE64" "$STORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD"; do
+            [[ -n "$value" ]] || { echo 'Release signing secrets are missing.' >&2; exit 1; }
+          done
+          umask 077
+          printf '%s' "$SIGNING_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/landscapify-release.jks"
+          echo "LANDSCAPIFY_KEYSTORE_FILE=$RUNNER_TEMP/landscapify-release.jks" >> "$GITHUB_ENV"
+
+      - name: Build and lint signed APKs
+        shell: bash
+        env:
+          LANDSCAPIFY_KEYSTORE_PASSWORD: ${{ secrets.LANDSCAPIFY_KEYSTORE_PASSWORD }}
+          LANDSCAPIFY_KEY_ALIAS: ${{ secrets.LANDSCAPIFY_KEY_ALIAS }}
+          LANDSCAPIFY_KEY_PASSWORD: ${{ secrets.LANDSCAPIFY_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease :app:lintRelease --no-daemon
+
+      - name: Verify and package assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          expected_signer=ac1210555cf7e180e85fa0d4463d8cb8dd300de46ab6313cf382834c43669b56
+          for abi in arm64-v8a armeabi-v7a x86_64 universal; do
+            apk="app/build/outputs/apk/release/app-$abi-release.apk"
+            test -f "$apk"
+            signer=$("$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "$apk" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')
+            [[ "$signer" == "$expected_signer" ]]
+            cp "$apk" "release-assets/Landscapify-$GITHUB_REF_NAME-$abi.apk"
+          done
+          (cd release-assets && sha256sum *.apk > SHA256SUMS.txt)
+
+      - name: Publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release-assets/*.apk release-assets/SHA256SUMS.txt --verify-tag --generate-notes
