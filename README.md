@@ -19,9 +19,10 @@
 
 To end a session, leave the selected app for about three seconds or tap **Stop session** in Landscapify's session notification. **Pause forcing** ends the current session and prevents new ones while keeping your library. Long press a tile to remove it.
 
+
 ## Showcase
 
-[![Subway Surfers running in landscape](docs/images/subway-surfers-landscape.jpg)](Showcase/Landscapify_Subway_surfers.mp4)
+https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
 
 [▶ Watch Subway Surfers in landscape](Showcase/Landscapify_Subway_surfers.mp4) · 16-second MP4 demo
 
