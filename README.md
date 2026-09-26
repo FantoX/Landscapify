@@ -1,29 +1,39 @@
 # Landscapify
 
-**Launch the apps you choose in a temporary landscape session.** Add them to your library, tap to open one, and Landscapify releases its orientation window when you leave.
+**Your apps, in landscape, one session at a time.** Build a library of installed apps, tap one to launch it, and Landscapify stops forcing landscape when you leave.
 
-[Download the latest APK](https://github.com/FantoX/Landscapify/releases/latest) · [Get started](#get-started) · [Watch the demo](#showcase) · [Build from source](#build-from-source)
+[Download the latest APK](https://github.com/FantoX/Landscapify/releases/latest) · [Get started](#get-started) · [Compatibility](#compatibility) · [Build from source](#build-from-source)
 
-**Android 11+** · **No Shizuku, root, Wireless debugging, Developer options, or computer** · **No internet permission**
+**Android 11+** · **No Shizuku or root** · **No Wireless debugging or Developer options** · **No internet permission**
+
+## See it in action
+
+https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
+
+*Subway Surfers running in landscape · 16-second demo*
+
+<details>
+<summary>See the Landscapify app library</summary>
 
 <p align="center">
-  <img src="docs/images/landscapify-library.jpg" alt="Landscapify library with Chrome, Calendar, and Clock ready to launch" width="360">
+  <img src="docs/images/landscapify-library.jpg" alt="Landscapify library with Chrome, Calendar, and Clock ready to launch" width="320">
 </p>
+
+</details>
 
 ## Get started
 
-1. Download the **universal APK** from the [latest GitHub Release](https://github.com/FantoX/Landscapify/releases/latest) and install it on an Android 11 or newer device.
+1. Download the **universal APK** from the [latest GitHub Release](https://github.com/FantoX/Landscapify/releases/latest) and install it on an Android 11 or newer device. Android may ask you to allow installation from your browser or file manager.
 2. Open Landscapify, tap **Set up**, and enable its service in Android **Accessibility** settings. Return to the app. If you chose **Later**, use **Set up** on the status card instead.
 3. Tap **Add apps**, choose the installed apps you want in your library, and tap **Add**.
 4. Tap an app tile to launch it. On the first launch, grant **Usage Access** when prompted, then tap the tile again.
 
 To end a session, leave the selected app for about three seconds or tap **Stop session** in Landscapify's session notification. **Pause forcing** ends the current session and prevents new ones while keeping your library. Long press a tile to remove it.
 
-## Showcase
-
-[![Subway Surfers running in landscape](docs/images/subway-surfers-landscape.jpg)](Showcase/Landscapify_Subway_surfers.mp4)
-
-[▶ Watch Subway Surfers in landscape](Showcase/Landscapify_Subway_surfers.mp4) · 16-second MP4 demo
+> [!IMPORTANT]
+> **Play Protect may warn or block installation.** GitHub APKs are installed outside Google Play, and Landscapify uses Accessibility. Download only from the official release, compare the APK's SHA-256 with `SHA256SUMS.txt`, and let Play Protect scan it if prompted.
+>
+> If Play Protect labels the app harmful or blocks it, [report the exact warning](https://github.com/FantoX/Landscapify/issues) so it can be investigated. Google recommends keeping Play Protect on. If you choose to turn off **Scan apps with Play Protect** temporarily for a verified APK, turn it back on immediately after installing. See [Google's warning guidance](https://developers.google.com/android/play-protect/warning-dev-guidance) and [Play Protect settings](https://support.google.com/googleplay/answer/2812853?hl=en).
 
 ## How it works
 
@@ -37,11 +47,16 @@ The app does not change system rotation settings or per-app compatibility flags.
 | **Usage Access**       | Detects when you leave the selected app so the session can end.          |
 | **Foreground service** | Keeps the active session running and provides a **Stop session** action. |
 
-## Device and app compatibility
+## Compatibility
 
 Android 11 or newer is required, but landscape behavior depends on the device's Android build and the app being launched. Some apps may stay portrait, become letterboxed, or render poorly even when the display rotates. Landscapify marks an app **Unsupported** when its landscape check fails; remove and add that app again to retry after a device or app update.
 
-The current approach was verified on an Android 17 phone emulator with a portrait-locked test app and Wireless debugging off. The display rotated for the session and returned to portrait afterward, including after Landscapify was force-stopped. An Accessibility overlay also rotated an iQOO 9 SE running Android 14, but target-app behavior on that device has not been confirmed with this version. See [the feasibility notes](M0-Feasibility.md) for the test boundary.
+| Tested environment | Result |
+| --- | --- |
+| Android 17 phone emulator | A portrait-locked test app rotated with Wireless debugging off. The display returned to portrait after leaving the app and after force-stopping Landscapify. |
+| iQOO 9 SE, Android 14 | The Accessibility overlay rotated the display. Target-app behavior on this device has not yet been confirmed with this version. |
+
+See [the feasibility notes](M0-Feasibility.md) for the full test boundary. The demo above shows one app working in landscape; it does not guarantee the same result for every app or phone.
 
 ## Downloads and updates
 
