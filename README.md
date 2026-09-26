@@ -26,15 +26,15 @@ Before installing this update over version 0.2.0, end any active landscape sessi
 
 ## GitHub releases
 
-Pushing a tag such as `v0.3.0` runs [the release workflow](.github/workflows/release.yml). It checks that the tag matches `versionName`, builds and verifies signed `arm64-v8a`, `armeabi-v7a`, `x86_64`, and universal APKs, then publishes them with `SHA256SUMS.txt`. The universal APK also includes x86 for older emulators. Because this app has only one small native library, the ABI splits are only slightly smaller than the universal APK.
+Pushing a version tag runs [the release workflow](.github/workflows/release.yml). It checks that the tag matches `versionName`, builds and verifies signed `arm64-v8a`, `armeabi-v7a`, `x86_64`, and universal APKs, then publishes them with `SHA256SUMS.txt`. The universal APK also includes x86 for older emulators. Because this app has only one small native library, the ABI splits are only slightly smaller than the universal APK. The current [v0.3.0 release](https://github.com/FantoX/Landscapify/releases/tag/v0.3.0) was built by this workflow.
 
 The workflow reads four repository Actions secrets: `LANDSCAPIFY_SIGNING_KEY_BASE64`, `LANDSCAPIFY_KEYSTORE_PASSWORD`, `LANDSCAPIFY_KEY_ALIAS`, and `LANDSCAPIFY_KEY_PASSWORD`. The release signing key is stored outside this repository. **Back up the keystore and its credentials securely:** losing them prevents future APKs from updating existing release installs. The workflow verifies the certificate SHA-256 fingerprint `AC:12:10:55:5C:F7:E1:80:E8:5F:A0:D4:46:3D:8C:B8:DD:30:0D:E4:6A:B6:31:3C:F3:82:83:4C:43:66:9B:56` before publishing.
 
 For each later release, increase `versionCode`, set `versionName` to the new version, commit and push those changes, then push the matching tag. For example:
 
 ```bash
-git tag v0.3.0
-git push origin v0.3.0
+git tag v0.3.1
+git push origin v0.3.1
 ```
 
 Release APKs use a different signing key from local debug APKs. Android cannot install a release APK over a debug-signed copy; uninstall the debug copy first, which erases its local library. Future release APKs signed with the same key update normally.
