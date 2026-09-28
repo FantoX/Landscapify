@@ -10,7 +10,7 @@
 
 https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
 
-*Subway Surfers running in landscape · 16-second demo*
+_Subway Surfers running in landscape · 16-second demo_
 
 <details>
 <summary>See the Landscapify app library</summary>
@@ -30,14 +30,12 @@ https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
 
 To end a session, leave the selected app for about three seconds or tap **Stop session** in Landscapify's session notification. **Pause forcing** ends the current session and prevents new ones while keeping your library. Long press a tile to remove it.
 
-## Showcase
-
-https://github.com/user-attachments/assets/8469f33f-2db2-42c0-b8cc-f22130e27f3e
-
-[▶ Watch Subway Surfers in landscape](Showcase/Landscapify_Subway_surfers.mp4) · 16-second MP4 demo
+---
 
 > [!IMPORTANT]
 > **Play Protect may warn or block installation.** GitHub APKs are installed outside Google Play, and Landscapify uses Accessibility. Download only from the official release, compare the APK's SHA-256 with `SHA256SUMS.txt`, and let Play Protect scan it if prompted.
+>
+> As it requests device usage access for landscape enforcement, some payment/banking app may flag it as **Risky app**. So after using the app you can simply disable its acsessability directly from **Landscapify -> Settings --> Scroll down and disable**.
 >
 > If Play Protect labels the app harmful or blocks it, [report the exact warning](https://github.com/FantoX/Landscapify/issues) so it can be investigated. Google recommends keeping Play Protect on. If you choose to turn off **Scan apps with Play Protect** temporarily for a verified APK, turn it back on immediately after installing. See [Google's warning guidance](https://developers.google.com/android/play-protect/warning-dev-guidance) and [Play Protect settings](https://support.google.com/googleplay/answer/2812853?hl=en).
 
@@ -57,10 +55,10 @@ The app does not change system rotation settings or per-app compatibility flags.
 
 Android 11 or newer is required, but landscape behavior depends on the device's Android build and the app being launched. Some apps may stay portrait, become letterboxed, or render poorly even when the display rotates. Landscapify marks an app **Unsupported** when its landscape check fails; remove and add that app again to retry after a device or app update.
 
-| Tested environment | Result |
-| --- | --- |
+| Tested environment        | Result                                                                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Android 17 phone emulator | A portrait-locked test app rotated with Wireless debugging off. The display returned to portrait after leaving the app and after force-stopping Landscapify. |
-| iQOO 9 SE, Android 14 | The Accessibility overlay rotated the display. Target-app behavior on this device has not yet been confirmed with this version. |
+| iQOO 9 SE, Android 14     | The Accessibility overlay rotated the display. Target-app behavior on this device has not yet been confirmed with this version.                              |
 
 See [the feasibility notes](M0-Feasibility.md) for the full test boundary. The demo above shows one app working in landscape; it does not guarantee the same result for every app or phone.
 
